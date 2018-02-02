@@ -75,7 +75,8 @@ const TextFieldExampleSimple = () => (
         short1: '',
         short2: '',
         button1name: 'SELL',
-        button2name: 'BUY'
+        button2name: 'BUY',
+        inputStatus: true
 
       };
 
@@ -91,23 +92,35 @@ const TextFieldExampleSimple = () => (
       this.setState({value});
       this.props.upData(value)
 
+      if (value <=0 ) {
+        this.setState({
+          inputStatus: true,
+          input_first: '',
+          input_second: ''
+        })
+      }
 
-      this.setState({
-        cryptoName: 1 + ' ' + this.props.data[value-1].symbol + " "+ '=',
-        usdName: '1 USD = ' + (1/this.props.data[value-1].price_usd).toFixed(5)+' '+this.props.data[value-1].symbol,
-        priceUSD: this.props.data[value-1].price_usd,
-        priceWUSD: this.props.data[value-1].price_usd +' USD',
-        input_first: '',
-        input_second: '',
-        short2: this.props.data[value-1].symbol,
-        short1: this.props.data[value-1].name,
-        button1name: 'SELL ' + this.props.data[value-1].symbol,
-        button2name: 'BUY ' + this.props.data[value-1].symbol
+            this.setState({
+
+              cryptoName: 1 + ' ' + this.props.data[value-1].symbol + " "+ '=',
+              usdName: '1 USD = ' + (1/this.props.data[value-1].price_usd).toFixed(5)+' '+this.props.data[value-1].symbol,
+              priceUSD: this.props.data[value-1].price_usd,
+              priceWUSD: this.props.data[value-1].price_usd +' USD',
+              input_first: '',
+              input_second: '',
+              short2: this.props.data[value-1].symbol,
+              short1: this.props.data[value-1].name,
+              button1name: 'SELL ' + this.props.data[value-1].symbol,
+              button2name: 'BUY ' + this.props.data[value-1].symbol,
+              inputStatus: false
+            })
 
 
-      })
 
-    }
+      }
+
+
+
 
     ChangeFirst(event, index, value) {
 
@@ -231,9 +244,9 @@ const TextFieldExampleSimple = () => (
           </div>
 
               <div className="second__input">
-                <input  onChange={this.ChangeFirst} type="text" size="20" value={this.state.input_second} />
+                <input  onChange={this.ChangeFirst} type="text" disabled={this.state.inputStatus} size="20"  value={this.state.input_second} />
                 <SVGInline svg={ArrowsIcon} />
-              <input   onChange={this.ChangeSecond} type="text" size="20"   value={this.state.input_first} />
+              <input   onChange={this.ChangeSecond} type="text" disabled={this.state.inputStatus} size="20"   value={this.state.input_first} />
             </div>
 
             </div>

@@ -1,6 +1,4 @@
 import { combineReducers } from 'redux';
-import { ProductsReducer } from './products';
-
 
 import { DataReducer } from './data';
 
