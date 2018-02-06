@@ -7,7 +7,7 @@ import { Balance }      from '../../balance';
 import './buysell.scss';
 
 
-import { upData, fetchPosts, Buy, Sell} from '../../../actions';
+import { upData, fetchPosts, Buy, Sell, BuyForTable, SellForTable} from '../../../actions';
 
 
 import DropDownMenu from 'material-ui/DropDownMenu';
@@ -25,44 +25,11 @@ const styles = {
   },
 };
 
-const styles2 = {
-  customWidth: {
-    width: 100,
-  },
-};
-
-
-const style = {
-  margin: 12,
-  width: 100
-};
-
-
-
-
-const TextFieldExampleSimple = () => (
-  <div>
-    <TextField
-      hintText="Hint Text"
-    />
-
-  <TextField
-    hintText="Hint Text"
-  />
-</div>
-
-);
-
-
-
-
-
 
   export class BuysellCont extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        counter: 0,
         value: 0,
         cryptoName: '',
         priceUSD: '',
@@ -71,7 +38,6 @@ const TextFieldExampleSimple = () => (
         input_second: '',
         name1: '', name2: '', name3: '', name4: '', name5: '', name6: '',
         name7: '', name8: '', name9: '', name10: '',
-        tableData : [],
         short1: '',
         short2: '',
         button1name: 'SELL',
@@ -114,27 +80,14 @@ const TextFieldExampleSimple = () => (
               button2name: 'BUY ' + this.props.data[value-1].symbol,
               inputStatus: false
             })
-
-
-
       }
 
-
-
-
     ChangeFirst(event, index, value) {
-
-
       this.setState({
         input_second: event.target.value,
         input_first: Number.parseFloat((Number(event.target.value)/Number(this.state.priceUSD)).toFixed(5)  )
 
-
       })
-
-
-
-
     }
 
     ChangeSecond(event,index,value) {
@@ -152,25 +105,29 @@ const TextFieldExampleSimple = () => (
       )
 
       if (this.state.input_second<=this.props.total.USD) {
-      var arrayvar = this.state.tableData.slice()
-      arrayvar.push({type:"BUY", pair:this.state.short2+"/USD", spent:this.state.input_second+" USD", received:this.state.input_first+' '+ this.state.short2})
-      this.setState({ tableData: arrayvar })
+        this.props.BuyForTable(
+          this.state.input_first,
+          this.state.input_second,
+          this.state.short2
+        )
     }
-    }
+  }
 
     clickSell() {
 
       this.props.Sell(
         this.props.data[this.state.value-1].name,
         this.state.input_first,
-        this.state.input_second
+        this.state.input_second,
+        this.state.short2
       )
 
       if (this.state.input_first<=this.props.total[this.state.short1]) {
-        var arrayvar = this.state.tableData.slice()
-        arrayvar.push({type:"SELL", pair:"USD/"+this.state.short2, spent:this.state.input_first+' '+ this.state.short2, received:this.state.input_second+" USD"})
-        this.setState({ tableData: arrayvar })
-
+        this.props.SellForTable(
+          this.state.input_first,
+          this.state.input_second,
+          this.state.short2
+        )
 
     }
   }
@@ -190,23 +147,12 @@ const TextFieldExampleSimple = () => (
         name9: this.props.data[8].name,
         name10: this.props.data[9].name
 
-
       })
     }
 
-
     render() {
 
-      console.log(this.props.total)
-
-
-
       return (
-
-<main>
-  <div className="left__cont">
-        <Balance/>
-
         <div className="buysell__cont" >
           <div className="buysell__head">
           <h1> Купить / Продать</h1>
@@ -248,7 +194,6 @@ const TextFieldExampleSimple = () => (
                 <SVGInline svg={ArrowsIcon} />
               <input   onChange={this.ChangeSecond} type="text" disabled={this.state.inputStatus} size="20"   value={this.state.input_first} />
             </div>
-
             </div>
 
             <div className="buttons">
@@ -266,15 +211,7 @@ const TextFieldExampleSimple = () => (
                     }} onClick={this.clickBuy}>{this.state.button2name}</button>
 
             </div>
-
-
       </div>
-      </div>
-      <div className="History">
-
-                    <History type={this.state.tableData}/>
-      </div>
-                  </main>
 
       )
     }
@@ -285,7 +222,6 @@ const TextFieldExampleSimple = () => (
       {
         data: Object.values(state.data)[0],
         total: state.total
-
       }
   );
 
@@ -294,9 +230,9 @@ const TextFieldExampleSimple = () => (
           upData,
           fetchPosts,
           Buy,
-          Sell
-
-
+          Sell,
+          BuyForTable,
+          SellForTable
       },
       dispatch
   );

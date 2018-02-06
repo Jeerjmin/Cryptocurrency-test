@@ -2,6 +2,8 @@ import fetch from 'isomorphic-fetch'
 
 
 
+
+
 export const Buy = (buy_type, buy_sum, cost_sum) => ({
   type: "BUY",
   buy_type: buy_type,
@@ -15,6 +17,23 @@ export const Sell = (buy_type, buy_sum, cost_sum) => ({
   buy_sum: buy_sum,
   cost_sum: cost_sum
 })
+
+export const BuyForTable = (buy_sum, cost_sum, symbol) => ({
+  type: "BUYTABLE",
+  buy_sum: buy_sum,
+  cost_sum: cost_sum,
+  symbol: symbol
+})
+
+export const SellForTable = (buy_sum, cost_sum, symbol) => ({
+  type: "SELLTABLE",
+  buy_sum: buy_sum,
+  cost_sum: cost_sum,
+  symbol: symbol
+})
+
+
+
 
 
 export const upData = value => ({

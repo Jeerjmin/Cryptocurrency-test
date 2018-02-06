@@ -78,10 +78,10 @@ this.handleChange = this.handleChange.bind(this)
 
 
 
+    console.log(this.props.table.table)
 
 
 
-    var TableD = this.props.type;
 
     return (
 <div className="History">
@@ -110,7 +110,7 @@ this.handleChange = this.handleChange.bind(this)
             showRowHover={this.state.showRowHover}
             stripedRows={this.state.stripedRows}
           >
-            {TableD.map(function(row, index) {
+            {this.props.table.table.map(function(row, index) {
 
 
                 if(row.type=='BUY') {
@@ -150,7 +150,8 @@ this.handleChange = this.handleChange.bind(this)
 
 const mapStateToProps = state => (
     {
-        products: state.products
+        products: state.products,
+        table: state.table
 
     }
 );

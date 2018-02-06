@@ -1,15 +1,7 @@
 import React            from 'react';
-
-
-import './app.scss';
-
-
-
-
-
 import { Buysell }      from '../../buysell';
-import configuration    from '../../../config.json';
-
+import { History }      from '../../history';
+import { Balance }      from '../../balance';
 
 
 
@@ -18,9 +10,16 @@ export class App extends React.Component {
 
     render() {
         return (
+          <main>
+            <div className="left__cont">
+                  <Balance/>
+                  <Buysell/>
+            </div>
+                      <div className="History">
 
-                    <Buysell/>
-
+                                    <History/>
+                      </div>
+          </main>
         );
     }
 }

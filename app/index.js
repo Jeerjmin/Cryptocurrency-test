@@ -22,15 +22,7 @@ const loggerMiddleware = createLogger()
 const store = createStore(reducers,composeWithDevTools(
   applyMiddleware(thunkMiddleware, loggerMiddleware) ) );
 
-
-
   store.dispatch(fetchPosts())
-
-
-
-
-
-
 
 render(
 
